@@ -6,14 +6,14 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:35:28 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/03 19:49:51 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/03 20:04:17 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft/libft.h"
+# include "libft_pro/libft.h"
 
 /* for close, read, write, unlink, dup, dup2, execve, fork, pipe, access */
 # include <unistd.h>
