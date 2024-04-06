@@ -6,14 +6,14 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:35:28 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/03 20:04:17 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:26:34 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft_pro/libft.h"
+# include "libft/libft.h"
 
 /* for close, read, write, unlink, dup, dup2, execve, fork, pipe, access */
 # include <unistd.h>
@@ -34,10 +34,15 @@
 # include <sys/wait.h>
 
 /* MACROS */
-# define ARGC "pipex: Incorrect input of arguments\n"
-# define PIPE "pipex: Could not create pipe\n"
-# define CHILD "pipex: Could not create child\n"
-# define CMD "pipex: Command invalid\n"
+# define ARGC "pipex: incorrect input of arguments\n"
+# define PERM "pipex: permission denied\n"
+# define PIPE "pipex: could not create pipe\n"
+# define CHILD "pipex: could not create child\n"
+# define CMD "pipex: command not found: "
+# define PATH "pipex: invalid path\n"
+# define SPLIT "pipex: ft_split failure\n"
+# define SJOIN "pipex: ft_strjoin failure\n"
+
 
 typedef struct s_pipex
 {
@@ -50,11 +55,12 @@ typedef struct s_pipex
 }	t_pipex;
 
 void	error_exit(char *str, t_pipex *ppx);
-void	error_message(char *str);
+void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd);
+void	free_ppx(t_pipex *ppx);
+// void	ft_closefd(t_pipex *ppx);
 void	check_input(char **argv);
-void	get_path(char **envp, t_pipex ppx);
 void	access_cmd(t_pipex *ppx);
 void	parse_cmd(t_pipex *ppx, char *arg);
-void	free_array(t_pipex *ppx);
+void	get_path(t_pipex *ppx);
 
 #endif 
