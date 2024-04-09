@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:20:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/08 18:06:00 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:56:30 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,19 @@ void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd)
 	exit(1);
 }
 
-void	handle_error(char *str)
+void	handle_error(char *msg, char *str)
 {
-	ft_putstr_fd(PERM2, 2);
-	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(msg, 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
+}
+
+void	create_file(char *arg)
+{
+	int	temp;
+	
+	temp = open(arg, O_CREAT, 0644);
+	close(temp);
 }
 
 void	free_ppx(t_pipex *ppx)	

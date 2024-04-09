@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:19:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/08 18:06:51 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:01:13 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void	check_input(char **argv)
 {
 	if (argv[2][0] == '\0' && argv[3][0] == '\0')
 	{
+		create_file(argv[4]);
 		ft_putstr_fd(PERM, 2);
 		ft_putstr_fd(PERM, 2);
 		exit(1);
 	}
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 	{
+		create_file(argv[4]);
 		ft_putstr_fd(PERM, 2);
 		exit(1);
 	}
@@ -40,7 +42,7 @@ void	get_path(t_pipex *ppx)
 		i++;
 	}
 	if (longpath == 0)
-		error_exit(PATH, ppx);
+		error_cmd_exit(PATH, ppx, ppx->cmd[0]);
 	ppx->paths = ft_split(longpath, ':');
 	if (ppx->paths == NULL)
 		error_exit(SPLIT, ppx);
@@ -57,7 +59,9 @@ void	check_access(t_pipex *ppx)
 	}
 	else
 	{
-		// free_ppx(ppx);	//this is creating memorey problems with pointers being freed that aren't allocated
+		if (!access(ppx->chosen, F_OK))
+			error_cmd_exit(PERM2, ppx, ppx->cmd[0]);
+		// free_ppx(ppx);	//this is creating memory problems with pointers being freed that aren't allocated
 		error_cmd_exit(CMD, ppx, ppx->cmd[0]);
 	}
 }
@@ -83,7 +87,7 @@ void	access_cmd(t_pipex *ppx)
 		{
 			if (!access(ppx->chosen, X_OK))
 				break ;
-			free_ppx(ppx);
+			// free_ppx(ppx); causes mem problems: freeing pointers that aren't allocated
 			error_cmd_exit(CMD, ppx, ppx->cmd[0]);
 		}
 		i++;
@@ -91,11 +95,33 @@ void	access_cmd(t_pipex *ppx)
 	check_access(ppx);
 }
 
-void	parse_cmd(t_pipex *ppx, char *arg)
+void	parse_cmd(t_pipex *ppx, char *arg, char **argv)
 {
-	int		i;
-
+	int			i;
+	// int 		j;
+	// static char	*longpath;
+	static char	**temp;
+	
 	i = 0;
+	temp = argv;	//delete!!!
+	// j = 0;
+	// temp = ppx->env;
+	// while (temp[j])
+	// {
+	// 	if (ft_strncmp(temp[j], "PWD=", 4) == 0)
+	// 		longpath = temp[j] + 4;
+	// 	j++;
+	// }
+	// longpath = ft_strsjoin(longpath, arg, '/');
+	// if (execve(longpath, &arg, ppx->env))
+	// {
+	// 	create_file(argv[4]);
+	// 	error_cmd_exit(CMD, ppx, arg);
+	// }
+	
+	// if (!access(arg, F_OK))
+	// 	if (!access(ppx->cmd[0], X_OK))
+	// 		error_cmd_exit(CMD, ppx, arg);
 	if (ft_strncmp(arg, "./", 2) == 0)
 		i += 2;
 	ppx->cmd = ft_split(arg + i, ' ');
