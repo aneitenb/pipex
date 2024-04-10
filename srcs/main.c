@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 13:53:50 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/09 18:01:43 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:35:19 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	child1(t_pipex *ppx, char **argv)
 	dup2(ppx->fd[1], STDOUT_FILENO);
 	close(ppx->fd[1]);
 	close(ppx->fd[0]);
-	parse_cmd(ppx, argv[2], argv);
+	parse_cmd(ppx, argv[2]);
 	access_cmd(ppx);
 	if (execve(ppx->chosen, ppx->cmd, ppx->env) == -1)
 	{
@@ -50,7 +50,7 @@ void	child2(t_pipex *ppx, char **argv)
 	dup2(output, STDOUT_FILENO);
 	close(output);
 	close(ppx->fd[1]);
-	parse_cmd(ppx, argv[3], argv);
+	parse_cmd(ppx, argv[3]);
 	access_cmd(ppx);
 	if (execve(ppx->chosen, ppx->cmd, ppx->env) == -1)
 	{

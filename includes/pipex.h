@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:35:28 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/09 15:57:09 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:11:54 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	free_ppx(t_pipex *ppx);
 // void	ft_closefd(t_pipex *ppx);
 void	check_input(char **argv);
 void	access_cmd(t_pipex *ppx);
-void	parse_cmd(t_pipex *ppx, char *arg, char **argv);
+void	parse_cmd(t_pipex *ppx, char *arg);
 void	get_path(t_pipex *ppx);
 
 #endif 
