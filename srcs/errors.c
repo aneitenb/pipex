@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:20:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 18:55:56 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:38:30 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd)
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd("\n", 2);
+	if (ppx)
+		free_ppx(ppx);
 	exit(1);
 }
 
@@ -58,7 +60,7 @@ void	free_ppx(t_pipex *ppx)
 	if (ppx->paths)
 	{
 		ppx->j = 0;
-		while (ppx->paths)
+		while (ppx->paths[ppx->j])
 		{
 			if (ppx->paths[ppx->j] != NULL)
 				free(ppx->paths[ppx->j]);
@@ -69,7 +71,7 @@ void	free_ppx(t_pipex *ppx)
 	if (ppx->cmd)
 	{
 		ppx->j = 0;
-		while (ppx->cmd)
+		while (ppx->cmd[ppx->j])
 		{
 			if (ppx->cmd[ppx->j] != NULL)
 				free(ppx->cmd[ppx->j]);

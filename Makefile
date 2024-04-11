@@ -6,7 +6,7 @@
 #    By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 14:27:00 by aneitenb          #+#    #+#              #
-#    Updated: 2024/04/11 16:06:10 by aneitenb         ###   ########.fr        #
+#    Updated: 2024/04/11 19:35:37 by aneitenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SOURCES = srcs/main.c \
 			
 OBJECTS = $(SOURCES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror #-g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 CC = gcc
 

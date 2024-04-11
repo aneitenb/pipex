@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:31:58 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 19:28:42 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:36:14 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	child1(t_pipex *ppx, char **argv)
 	{
 		handle_in_error(argv[1]);
 		create_file(argv[4]);
+		free_ppx(ppx);
 		exit(127);
 	}
 	dup2(input, STDIN_FILENO);
@@ -42,6 +43,7 @@ void	child1(t_pipex *ppx, char **argv)
 	{
 		handle_error(PERM2, ppx->cmd[0]);
 		create_file(argv[4]);
+		free_ppx(ppx);
 		exit(127);
 	}
 }
@@ -55,6 +57,7 @@ void	child2(t_pipex *ppx, char **argv)
 	{
 		handle_in_error(argv[4]);
 		create_file(argv[4]);
+		free_ppx(ppx);
 		exit(127);
 	}
 	dup2(ppx->fd[0], STDIN_FILENO);
@@ -68,6 +71,7 @@ void	child2(t_pipex *ppx, char **argv)
 	{
 		handle_error(PERM2, ppx->cmd[0]);
 		create_file(argv[4]);
+		free_ppx(ppx);
 		exit(127);
 	}
 }
