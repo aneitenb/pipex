@@ -6,11 +6,11 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:19:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/10 15:09:58 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:56:21 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../includes/pipex.h"
+#include "../includes/pipex.h"
 
 void	check_input(char **argv)
 {
@@ -32,8 +32,8 @@ void	check_input(char **argv)
 void	get_path(t_pipex *ppx)
 {
 	static char	*longpath;
-	int		i;
-	
+	int			i;
+
 	i = 0;
 	while (ppx->env[i])
 	{
@@ -56,51 +56,47 @@ void	check_access(t_pipex *ppx, int flag)
 		{
 			if (!access(ppx->cmd[0], X_OK))
 				return ;
-			// free_ppx(ppx);
 			error_cmd_exit(PERM2, ppx, ppx->cmd[0]);
 		}
 	}
 	if (!access(ppx->chosen, F_OK))
 	{
-			if (!access(ppx->chosen, X_OK))
-				return ;
-			// free_ppx(ppx);
-			error_cmd_exit(CMD, ppx, ppx->cmd[0]);
+		if (!access(ppx->chosen, X_OK))
+			return ;
+		error_cmd_exit(CMD, ppx, ppx->cmd[0]);
 	}
 	else
 	{
 		if (!access(ppx->chosen, F_OK))
 			error_cmd_exit(PERM2, ppx, ppx->cmd[0]);
-		// free_ppx(ppx);	//this is creating memory problems with pointers being freed that aren't allocated
 		error_cmd_exit(CMD, ppx, ppx->cmd[0]);
 	}
 }
 
 void	access_cmd(t_pipex *ppx)
 {
-	int	i;
-	
-	i = 0;
+	ppx->i = 0;
 	get_path(ppx);
 	if (!access(ppx->cmd[0], F_OK))
+	{
 		if (!access(ppx->cmd[0], X_OK))
 		{
 			ppx->chosen = ppx->cmd[0];
 			return ;
 		}
-	while (ppx->paths[i])
+	}
+	while (ppx->paths[ppx->i])
 	{
-		ppx->chosen = ft_strsjoin(ppx->paths[i], ppx->cmd[0], '/');
+		ppx->chosen = ft_strsjoin(ppx->paths[ppx->i], ppx->cmd[0], '/');
 		if (ppx->chosen == NULL)
 			error_exit(SJOIN, ppx);
 		if (!access(ppx->chosen, F_OK))
 		{
 			if (!access(ppx->chosen, X_OK))
 				break ;
-			// free_ppx(ppx); causes mem problems: freeing pointers that aren't allocated
 			error_cmd_exit(CMD, ppx, ppx->cmd[0]);
 		}
-		i++;
+		ppx->i++;
 	}
 	check_access(ppx, 0);
 }
@@ -111,23 +107,23 @@ void	parse_cmd(t_pipex *ppx, char *arg)
 	{
 		ppx->cmd = ft_split(arg, ' ');
 		if (ppx->cmd == NULL)
-			error_exit(SPLIT, ppx);	//do i need to free(ppx) ?
+			error_exit(SPLIT, ppx);
 	}
 	else if (ft_strncmp(arg, "./", 2) == 0)
 	{
 		ppx->cmd = ft_split(arg, ' ');
 		if (ppx->cmd == NULL)
-			error_exit(SPLIT, ppx);	//do i need to free(ppx) ?
+			error_exit(SPLIT, ppx);
 		check_access(ppx, 1);
 		ppx->cmd = ft_split(arg + 2, ' ');
 		if (ppx->cmd == NULL)
-			error_exit(SPLIT, ppx);	//do i need to free(ppx) ?
+			error_exit(SPLIT, ppx);
 	}
 	else
 	{
-		ppx->cmd = ft_split(arg, ' ');
+		ppx->cmd = ft_split_quote(arg);
 		if (ppx->cmd == NULL)
-			error_exit(SPLIT, ppx);	//do i need to free(ppx) ?
+			error_exit(SPLIT, ppx);
 		if (!access(ppx->cmd[0], F_OK))
 			if (!access(ppx->cmd[0], X_OK))
 				error_cmd_exit(CMD, ppx, arg);

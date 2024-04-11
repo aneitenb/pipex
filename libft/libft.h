@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:52:13 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/05 16:22:43 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:28:21 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # endif
 
 /*******************************/
-/*       libft functions       */
+/*       libft struct          */
 /*******************************/
 
 typedef struct s_list
@@ -29,6 +29,23 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+/*******************************/
+/*     split_quote struct      */
+/*******************************/
+
+typedef struct s_split
+{
+	char	**array;
+	int		i;
+	int		j;
+	int		k;
+	int		wc;
+}			t_split;
+
+/*******************************/
+/*       libft functions       */
+/*******************************/
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -65,6 +82,7 @@ char	*ft_itoa(int n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
+char	**ft_split_quote(char *str);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
@@ -78,13 +96,13 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 /*       printf functions      */
 /*******************************/
 
-int	ft_printf(const char *format, ...);
-int	pf_putchar(char c, int *check);
-int	pf_putstr(char *str, int *check);
-int	pf_putnbr(int num, int *check);
-int	pf_puthexbase(unsigned long num, int cap, int *check);
-int	pf_putun(unsigned int num, int *check);
-int	pf_putptr(void *ptr, int *check);
+int		ft_printf(const char *format, ...);
+int		pf_putchar(char c, int *check);
+int		pf_putstr(char *str, int *check);
+int		pf_putnbr(int num, int *check);
+int		pf_puthexbase(unsigned long num, int cap, int *check);
+int		pf_putun(unsigned int num, int *check);
+int		pf_putptr(void *ptr, int *check);
 
 /*******************************/
 /*   get_next_line functions   */

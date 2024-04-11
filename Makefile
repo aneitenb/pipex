@@ -6,7 +6,7 @@
 #    By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 14:27:00 by aneitenb          #+#    #+#              #
-#    Updated: 2024/04/05 16:47:24 by aneitenb         ###   ########.fr        #
+#    Updated: 2024/04/11 16:06:10 by aneitenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,14 @@ LIBFT_DIR = ./libft
 
 LIBFT = ./libft/libft.a
 
-SOURCES = main.c \
-			errors.c \
-			utils.c 
+SOURCES = srcs/main.c \
+			srcs/errors.c \
+			srcs/utils.c \
+			srcs/pipex.c
 			
 OBJECTS = $(SOURCES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror #-g #-fsanitize=address
 
 CC = gcc
 

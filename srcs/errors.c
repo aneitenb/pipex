@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:20:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/09 15:56:30 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:55:56 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd)
 	close(ppx->fd[1]);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2); 
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
 
@@ -37,44 +37,46 @@ void	handle_error(char *msg, char *str)
 	ft_putstr_fd("\n", 2);
 }
 
-void	create_file(char *arg)
+void	handle_in_error(char *arg)
 {
-	int	temp;
-	
-	temp = open(arg, O_CREAT, 0644);
-	close(temp);
+	if (!access(arg, F_OK))
+	{
+		ft_putstr_fd(PERM2, 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd(PATH, 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("\n", 2);
+	}
 }
 
-void	free_ppx(t_pipex *ppx)	
+void	free_ppx(t_pipex *ppx)
 {
 	if (ppx->paths)
 	{
-		while(ppx->paths)
+		ppx->j = 0;
+		while (ppx->paths)
 		{
-			free(ppx->paths);
-			ppx->paths++;
+			if (ppx->paths[ppx->j] != NULL)
+				free(ppx->paths[ppx->j]);
+			ppx->j++;
 		}
 		free (ppx->paths);
 	}
-	// if (ppx->env)		//don't need this since I'm not allocating memory on the heap
-	// {
-	// 	while(ppx->env)
-	// 	{
-	// 		free(ppx->env);
-	// 		ppx->env++;
-	// 	}
-	// 	free (ppx->env);
-	// }
-	if (ppx->chosen)
-		free(ppx->chosen);
-	if (ppx->cmd) 
+	if (ppx->cmd)
 	{
-		while(ppx->cmd)
+		ppx->j = 0;
+		while (ppx->cmd)
 		{
-			free(ppx->cmd);
-			ppx->cmd++;
+			if (ppx->cmd[ppx->j] != NULL)
+				free(ppx->cmd[ppx->j]);
+			ppx->j++;
 		}
 		free (ppx->cmd);
 	}
-	// free(ppx);
+	if (ppx->chosen)
+		free(ppx->chosen);
 }

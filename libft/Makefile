@@ -2,6 +2,7 @@ NAME = libft.a
 
 SOURCES =  ft_isdigit.c \
 		   ft_split.c \
+		   ft_split_quote.c \
 		   ft_strmapi.c \
 		   ft_striteri.c \
 		   ft_itoa.c \

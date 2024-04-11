@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:35:28 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/10 12:11:54 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:54:10 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 # define SPLIT "pipex: ft_split failure\n"
 # define SJOIN "pipex: ft_strjoin failure\n"
 
-
 typedef struct s_pipex
 {
 	char	**paths;
@@ -53,14 +52,17 @@ typedef struct s_pipex
 	char	**cmd;
 	pid_t	pid[2];
 	int		fd[2];
+	int		i;
+	int		j;
 }	t_pipex;
 
 void	error_exit(char *str, t_pipex *ppx);
 void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd);
 void	handle_error(char *msg, char *str);
+void	handle_in_error(char *arg);
 void	create_file(char *arg);
 void	free_ppx(t_pipex *ppx);
-// void	ft_closefd(t_pipex *ppx);
+int		pipex(t_pipex *ppx, char **argv);
 void	check_input(char **argv);
 void	access_cmd(t_pipex *ppx);
 void	parse_cmd(t_pipex *ppx, char *arg);
