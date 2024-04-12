@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:35:28 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 18:54:10 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:09:46 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,8 @@
 /* for open */
 # include <fcntl.h>
 
-/* for strerror */
-# include <string.h>
-
 /* for malloc, free, exit */
 # include <stdlib.h>
-
-/* for perror */
-# include <stdio.h>
 
 /* for waitpid, wait, */
 # include <sys/wait.h>

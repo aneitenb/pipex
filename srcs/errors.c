@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:20:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 19:38:30 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:39:01 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	error_cmd_exit(char *str, t_pipex *ppx, char *cmd)
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd("\n", 2);
-	if (ppx)
+	if (ppx->paths || ppx->cmd || ppx->chosen)
 		free_ppx(ppx);
 	exit(1);
 }

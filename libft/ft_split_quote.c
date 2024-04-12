@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:18:38 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 13:38:39 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:55:38 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,22 @@ void	scan_str(char **str)
 	{
 		if ((**str == ' ' || **str == '\t' || **str == '\n'))
 			**str = 31;
-		if (**str == '\'')
+		if (**str == 39 || **str == 34 || **str == '{' || **str == '}')
 		{
-			**str = 31;
-			if (*str + 1)
+			if (**str == 39 || **str == 34)
+			{
+				**str = 31;
 				(*str)++;
-			while (**str && **str != '\'')
+			}
+			if (**str == '{' || **str == '}')
 				(*str)++;
-			**str = 31;
+			while (**str && (**str != 39 && **str != 34
+					&& **str != '{' && **str != '}'))
+				(*str)++;
+			if (**str == '{' || **str == '}')
+				(*str)++;
+			if (**str == 39 || **str == 34)
+				**str = 31;
 		}
 		if ((*str + 1))
 			(*str)++;

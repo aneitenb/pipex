@@ -6,7 +6,7 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:19:01 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/11 18:56:21 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:51:47 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	access_cmd(t_pipex *ppx)
 	{
 		if (!access(ppx->cmd[0], X_OK))
 		{
-			ppx->chosen = ppx->cmd[0];
+			ppx->chosen = ft_strdup(ppx->cmd[0]);
 			return ;
 		}
 	}
