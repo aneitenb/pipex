@@ -6,94 +6,90 @@
 /*   By: aneitenb <aneitenb@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:18:38 by aneitenb          #+#    #+#             */
-/*   Updated: 2024/04/12 16:55:38 by aneitenb         ###   ########.fr       */
+/*   Updated: 2024/04/13 15:43:04 by aneitenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *s1, char *s2, int len)
+void	word_count(char *str, t_split *sp, int i)
 {
-	int	i;
-
-	i = 0;
-	while ((i < len) && s2[i])
-	{
-		s1[i] = s2[i];
-		i++;
-	}
-	s1[i] = '\0';
-	return (s1);
-}
-
-void	word_count(char *str, t_split *sp)
-{
-	int	i;
-
-	i = 0;
 	while (str[i])
 	{
 		while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
 			i++;
 		if (str[i])
-			sp->wc++;
-		while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\n'))
 		{
-			if (str[i] == 39)
-			{
+			sp->wc++;
+			if (str[i] == 39 || str[i] == 34 || str[i] == '{')
 				i++;
-				while (str[i] && str[i] != 39)
+			if (str[i - 1] == 39 || str[i - 1] == 34)
+				while (str[i] && (str[i] != 34 || str[i] != 39))
+					i++;
+			else if (str[i - 1] == '{' || str[i - 1] == '}')
+				while (str[i] && (str[i] != '}' || str[i] != '{'))
+					i++;
+			else
+			{
+				while (str[i] && (str[i] != ' '
+						&& str[i] != '\t' && str[i] != '\n'))
 					i++;
 			}
-			if (str[i] == 39)
-			{
+			if (str[i] && (str[i] == 39 || str[i] == 34 || str[i] == '}'))
 				i++;
-				break ;
-			}
-			i++;
 		}
 	}
 }
 
 char	**init_sp(t_split *sp, char *str)
 {
+	int	i;
+
+	i = 0;
 	sp->i = 0;
 	sp->j = 0;
 	sp->k = 0;
 	sp->wc = 0;
-	word_count(str, sp);
+	word_count(str, sp, i);
 	sp->array = (char **)malloc(sizeof(char *) * (sp->wc + 1));
 	if (sp->array == NULL)
 		return (NULL);
 	return (sp->array);
 }
 
-void	scan_str(char **str)
+void	handle_braces(t_split *sp, char *str)
 {
-	while (**str)
+	sp->i++;
+	while (str[sp->i] && str[sp->i] != '{' && str[sp->i] != '}')
+		sp->i++;
+	sp->i++;
+}
+
+void	scan_str(t_split *sp, char *str)
+{
+	while (str[sp->i])
 	{
-		if ((**str == ' ' || **str == '\t' || **str == '\n'))
-			**str = 31;
-		if (**str == 39 || **str == 34 || **str == '{' || **str == '}')
+		if ((str[sp->i] == ' ' || str[sp->i] == '\t' || str[sp->i] == '\n'))
+			str[sp->i] = '!';
+		if (str[sp->i] == 39 || str[sp->i] == 34
+			|| str[sp->i] == '{' || str[sp->i] == '}')
 		{
-			if (**str == 39 || **str == 34)
+			if (str[sp->i] == 39 || str[sp->i] == 34)
 			{
-				**str = 31;
-				(*str)++;
+				str[sp->i] = '!';
+				sp->i++;
 			}
-			if (**str == '{' || **str == '}')
-				(*str)++;
-			while (**str && (**str != 39 && **str != 34
-					&& **str != '{' && **str != '}'))
-				(*str)++;
-			if (**str == '{' || **str == '}')
-				(*str)++;
-			if (**str == 39 || **str == 34)
-				**str = 31;
+			if (str[sp->i] == '{' || str[sp->i] == '}')
+				handle_braces(sp, str);
+			while (str[sp->i] && (str[sp->i] != 39 && str[sp->i] != 34))
+				sp->i++;
+			if (str[sp->i] == 39 || str[sp->i] == 34)
+				str[sp->i] = '!';
 		}
-		if ((*str + 1))
-			(*str)++;
+		if (str[sp->i])
+			sp->i++;
 	}
+	sp->i = 0;
 }
 
 char	**ft_split_quote(char *str)
@@ -104,13 +100,13 @@ char	**ft_split_quote(char *str)
 	ptr = str;
 	if (init_sp(&sp, str) == NULL)
 		return (NULL);
-	scan_str(&str);
+	scan_str(&sp, str);
 	while (ptr[sp.i])
 	{
-		while (ptr[sp.i] && (ptr[sp.i] == 31))
+		while (ptr[sp.i] && (ptr[sp.i] == '!'))
 			sp.i++;
 		sp.j = sp.i;
-		while (ptr[sp.i] && (ptr[sp.i] != 31))
+		while (ptr[sp.i] && (ptr[sp.i] != '!'))
 			sp.i++;
 		if (sp.i > sp.j)
 		{

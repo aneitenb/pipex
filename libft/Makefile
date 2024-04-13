@@ -31,6 +31,7 @@ SOURCES =  ft_isdigit.c \
 		   ft_strchr.c \
 		   ft_strrchr.c \
 		   ft_strncmp.c \
+		   ft_strncpy.c \
 		   ft_memchr.c \
 		   ft_memcmp.c \
 		   ft_strlcpy.c\
