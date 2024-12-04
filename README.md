@@ -1,6 +1,6 @@
 # Pipex
 
-A program that replicates Unix pipe functionality, handling file input/output and command execution.
+I learned how to recreate pipe functionality by managing separate processes and controlling how data flows between programs.
 
 ## Description
 
@@ -31,8 +31,3 @@ Equivalent to:
 - Commands must be valid shell commands
 - Use quotes for commands with parameters
 
-## Key Learning Points
-- Process forking
-- File descriptor management
-- Pipe operations
-- Command execution
