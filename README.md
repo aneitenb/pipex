@@ -1,6 +1,6 @@
 # Pipex
 
-I learned how to recreate pipe functionality by managing separate processes and controlling how data flows between programs.
+I learned how to recreate pipe functionality by managing child processes and controlling how data flows between programs.
 
 ## Description
 
